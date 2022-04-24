@@ -4,6 +4,7 @@ import android.app.ActionBar
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Math.abs
 import java.net.URL
+import java.security.AccessController.getContext
 
 
 class Search : AppCompatActivity() {
@@ -54,6 +56,15 @@ class Search : AppCompatActivity() {
                         val prodtext = TextView(this@Search)
                         prodtext.textSize = 20f
                         prodtext.text = productNames[index].unescapeUnicode()
+
+                        val textParams = LinearLayout.LayoutParams(
+                            (300f*resources.displayMetrics.density+0.5f).toInt(),
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).apply{
+                            weight = 1f
+                            gravity = Gravity.CENTER_HORIZONTAL
+                        }
+                        prodtext.layoutParams = textParams
                         layout.addView(prodtext)
                         image.setOnClickListener{val intent = Intent(this@Search, Product::class.java)
                             intent.putExtra("productId", productIds[index])
